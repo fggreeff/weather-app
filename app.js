@@ -20,10 +20,15 @@ req(
     json: true,
   },
   (error, response, body) => {
-    console.log(`Address: ${body.results[0].providedLocation.location}`);
-    console.log(`Latitude: ${body.results[0].locations[0].latLng.lat}`);
-    console.log(`Longatude: ${body.results[0].locations[0].latLng.lng}`);
-
+    if (error) {
+      console.log(`unable to connect to map service ${error}`);
+    } else if (body === undefined) {
+      console.log('Unable to find address, please enter a valid address');
+    } else {
+      console.log(`Address: ${body.results[0].providedLocation.location}`);
+      console.log(`Latitude: ${body.results[0].locations[0].latLng.lat}`);
+      console.log(`Longatude: ${body.results[0].locations[0].latLng.lng}`);
+    }
     // console.log(JSON.stringify(error, undefined, 2));
   },
 );
