@@ -9,9 +9,7 @@ const getWeather = (latitude, longatude, callback) => {
     (error, response, body) => {
       if (!error && response.statusCode === 200) {
         callback(undefined, {
-          temperature: `Temp is ${
-            body.currently.temperature
-          }, although it feels like`,
+          temperature: body.currently.temperature,
           apparentTemperature: body.currently.apparentTemperature,
         });
       } else {

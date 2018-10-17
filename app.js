@@ -18,16 +18,20 @@ geocode.geocodeAddress(argv.address, (errorMessage, results) => {
   if (errorMessage) {
     console.log(errorMessage);
   } else {
-    console.log(JSON.stringify(results, undefined, 2));
+    console.log(results.address);
 
     weather.getWeather(
       results.latitude,
       results.longatude,
-      (errorWeatherMessage, resultsWeather) => {
-        if (errorMessage) {
-          console.log(errorWeatherMessage);
+      (weatherErrorMessage, weatherResults) => {
+        if (weatherErrorMessage) {
+          console.log(weatherErrorMessage);
         } else {
-          console.log(JSON.stringify(resultsWeather, undefined, 2));
+          console.log(
+            `It's currently ${weatherResults.temperature}. It feels like ${
+              weatherResults.apparentTemperature
+            }.`,
+          );
         }
       },
     );
