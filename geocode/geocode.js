@@ -1,6 +1,6 @@
 const req = require('request');
 
-const geocodeAddress = (address) => {
+const geocodeAddress = (address, callback) => {
   const encodedAddress = encodeURIComponent(address);
   req(
     {
@@ -9,15 +9,19 @@ const geocodeAddress = (address) => {
     },
     (error, response, body) => {
       if (error) {
-        console.log(`unable to connect to map service ${error}`);
+        callback(`Unable to connect to map service ${error}`, undefined);
       } else if (body === undefined) {
-        console.log('Unable to find address, please enter a valid address');
+        callback(
+          'Unable to find address, please enter a valid address',
+          undefined,
+        );
       } else {
-        console.log(`Address: ${body.results[0].providedLocation.location}`);
-        console.log(`Latitude: ${body.results[0].locations[0].latLng.lat}`);
-        console.log(`Longatude: ${body.results[0].locations[0].latLng.lng}`);
+        callback(undefined, {
+          address: body.results[0].providedLocation.location,
+          latitude: body.results[0].locations[0].latLng.lat,
+          longatude: body.results[0].locations[0].latLng.lng,
+        });
       }
-      // console.log(JSON.stringify(error, undefined, 2));
     },
   );
 };
